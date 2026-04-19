@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deployment — OwlyVision Docs</title>
+  <meta name="description" content="High-level deployment and domain model for the OwlyVision beta.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://docs.owlyvision.com/deployment">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="page--light docs-page">
+  <div class="site-shell">
+    <header class="topbar">
+      <div class="container topbar__inner">
+        <a class="brand brand--ink" href="./" aria-label="OwlyVision docs home">
+          <span class="brand__mark" aria-hidden="true"></span>
+          <span class="brand__word">OwlyVision Docs</span>
+        </a>
+        <nav class="topbar__nav" aria-label="Documentation">
+          <a href="./">Overview</a>
+          <a href="getting-started">Getting started</a>
+          <a href="workflows">Workflows</a>
+          <a href="https://owlyvision.com/">Marketing</a>
+          <a class="button button--primary" href="https://app.owlyvision.com/app/index.html">Open app</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-section">
+      <div class="container docs-shell">
+        <aside class="docs-sidebar">
+          <p class="preview-label">Guide pages</p>
+          <nav class="docs-sidebar__nav" aria-label="Guide pages">
+            <a href="./">Overview</a>
+            <a href="getting-started">Getting started</a>
+            <a href="workflows">Workflows</a>
+            <a class="is-active" href="deployment" aria-current="page">Deployment</a>
+          </nav>
+          <div class="docs-sidebar__panel">
+            <p class="preview-label">Scope</p>
+            <p>This page is intentionally high level. Public docs should explain the shape of the deployment without exposing secrets or internal provider credentials.</p>
+          </div>
+        </aside>
+
+        <article class="docs-article">
+          <p class="eyebrow">Deployment</p>
+          <h1 class="page-title">The public host split for the current beta.</h1>
+          <p class="section-lead">OwlyVision is intentionally split across multiple public surfaces so the brand, product runtime, and documentation stay cleanly separated.</p>
+
+          <section id="domains">
+            <h2>Domain model</h2>
+            <ul class="docs-list">
+              <li><strong>owlyvision.com</strong> is the canonical public marketing surface.</li>
+              <li><strong>app.owlyvision.com</strong> is the product runtime for briefs, APIs, share links, and exports.</li>
+              <li><strong>docs.owlyvision.com</strong> is the documentation surface.</li>
+              <li><strong>owly.vision</strong> is a supporting brand asset, not the main canonical product host.</li>
+            </ul>
+          </section>
+
+          <section id="runtime-shape">
+            <h2>Runtime shape</h2>
+            <p>The current beta uses one live application runtime for the app surface, while the docs surface can live on a separate static host to avoid coupling documentation delivery to the product runtime.</p>
+            <ul class="docs-list">
+              <li>The app host needs a long-running runtime, healthchecks, and persistent state.</li>
+              <li>The docs host is static in content and works well on a separate documentation-friendly host.</li>
+              <li>The marketing apex can stay separate so legacy redirects and SEO control remain deliberate.</li>
+            </ul>
+          </section>
+
+          <section id="seo">
+            <h2>Indexing and canonical ownership</h2>
+            <ul class="docs-list">
+              <li>Marketing pages canonically belong to <span class="mono">owlyvision.com</span>.</li>
+              <li>Docs pages canonically belong to <span class="mono">docs.owlyvision.com</span>.</li>
+              <li>Private app/share surfaces should stay <span class="mono">noindex</span>.</li>
+              <li>The docs surface should have its own robots and sitemap behavior rather than inheriting marketing rules.</li>
+            </ul>
+          </section>
+
+          <section id="legacy">
+            <h2>Legacy path preservation</h2>
+            <p>OwlyVision still carries legacy outbound-preview traffic from the earlier automation system. Because of that, apex changes must preserve the redirect paths that were explicitly moved elsewhere rather than treating the root domain as a blank slate.</p>
+          </section>
+
+          <section id="practical-rule">
+            <h2>Practical operating rule</h2>
+            <div class="docs-callout">
+              <p class="preview-label">Use this split</p>
+              <p>Keep brand and SEO intent on the apex. Keep the product runtime on <span class="mono">app.</span>. Keep docs on <span class="mono">docs.</span>. Only use <span class="mono">owly.vision</span> for support, redirects, or shortlink behavior.</p>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
